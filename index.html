@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmação de Presença - Casamento</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f8f9fa; }
+    header { background:#c2185b; color:#fff; text-align:center; padding:20px; }
+    header h1 { margin:0; font-size:28px; }
+    header h2 { margin:5px 0 0; font-weight:normal; font-size:20px; }
+    main { padding:20px; max-width:900px; margin:auto; }
+    .card { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.2); margin-bottom:20px; }
+    label { display:block; margin-top:10px; font-weight:bold; }
+    input, select, textarea { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:5px; }
+    button { margin-top:15px; padding:10px 20px; background:#c2185b; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#a3154a; }
+    footer { text-align:center; padding:15px; background:#eee; color:#555; margin-top:30px; }
+    .familia-item { border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:15px; }
+    .member-item { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+    .action-btn { margin-left:5px; padding:5px 10px; border:none; border-radius:5px; cursor:pointer; }
+    .btn-danger { background:#e53935; color:#fff; }
+    .btn-success { background:#43a047; color:#fff; }
+    .btn-info { background:#1e88e5; color:#fff; }
+    .tipo-convidado { padding:2px 6px; border-radius:4px; font-size:12px; color:#fff; }
+    .adulto { background:#00796b; }
+    .crianca { background:#0288d1; }
+    .estatisticas p { margin:5px 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Confirmação de Presença</h1>
+  <h2>17/01/2026 em Garça</h2>
+</header>
+
+<main>
+  <!-- ÁREA DO CONVIDADO -->
+  <section id="convidado" class="card">
+    <h2>Área do Convidado</h2>
+    <label for="familia">Selecione sua família</label>
+    <select id="familia">
+      <option value="">-- Selecione --</option>
+    </select>
+    <label for="telefone">Telefone (WhatsApp)</label>
+    <input type="text" id="telefone" placeholder="(00) 00000-0000">
+    <label for="mensagem">Mensagem aos noivos</label>
+    <textarea id="mensagem" rows="3"></textarea>
+    <button id="btnConfirmarPresenca">Confirmar Presença</button>
+    <p id="msgStatus"></p>
+  </section>
+
+  <!-- ÁREA ADMINISTRATIVA -->
+  <section id="admin" class="card">
+    <h2>Área Administrativa</h2>
+    <input type="password" id="senha" placeholder="Digite a senha">
+    <button id="btnLogin">Entrar</button>
+    <div id="adminPanel" style="display:none; margin-top:20px;">
+      <h3>Estatísticas</h3>
+      <div class="estatisticas" id="estatisticas"></div>
+
+      <h3>Gerenciar Famílias</h3>
+      <button class="btn-info" onclick="adicionarFamilia()">Adicionar Família</button>
+      <div style="margin: 15px 0;">
+        <input type="text" id="busca-familia" placeholder="🔍 Buscar família..." 
+               style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
+      </div>
+      <div id="admin-familias"></div>
+
+      <h3>Exportar Dados</h3>
+      <button class="btn-success" onclick="exportarJSON()">Exportar JSON</button>
+      <button class="btn-info" onclick="exportarCSV()">Exportar CSV</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Casamento – Contato: (14) 98116-4925</p>
+</footer>
+
+<script>
+  let familias = {
+    "1": { nome:"Família Silva", telefone:"", membros:[{id:1,nome:"João",tipo:"adulto",confirmado:false},{id:2,nome:"Maria",tipo:"adulto",confirmado:false}] },
+    "2": { nome:"Família Santos", telefone:"", membros:[{id:1,nome:"Carlos",tipo:"adulto",confirmado:false},{id:2,nome:"Ana",tipo:"crianca",confirmado:false}] }
+  };
+
+  const selectFamilia=document.getElementById("familia");
+  const telefoneInput=document.getElementById("telefone");
+  const mensagemInput=document.getElementById("mensagem");
+  const btnConfirmarPresenca=document.getElementById("btnConfirmarPresenca");
+  const msgStatus=document.getElementById("msgStatus");
+  const senhaInput=document.getElementById("senha");
+  const btnLogin=document.getElementById("btnLogin");
+  const adminPanel=document.getElementById("adminPanel");
+  const adminFamilias=document.getElementById("admin-familias");
+  const estatisticasDiv=document.getElementById("estatisticas");
+  const inputBusca=document.getElementById("busca-familia");
+
+ 
